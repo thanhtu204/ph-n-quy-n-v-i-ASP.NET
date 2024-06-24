@@ -1,0 +1,83 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+@model List<Product>
+<section class="py-5">
+    <div class="container px-4 px-lg-5 mt-5">
+        <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+            @foreach (var x in Model)
+            {
+                <div class="col mb-5">
+                    <div class="card h-100">
+                        <!-- Product image-->
+                        <img class="card-img-top" src="/@x.ImageUrl" alt="..." />
+                        <!-- Product details-->
+                        <div class="card-body p-4">
+                            <div class="text-center">
+                                <!-- Product name-->
+                                <h5 class="fw-bolder">@x.Name</h5>
+                                <!-- Product price-->
+                                @Html.FormatValue(x.Price, "${0:#,##0}")
+                            </div>
+                        </div>
+                        <!-- Product actions-->
+                        <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                            <div class="text-center">
+                                <a class="addtocart btn btn-outline-dark mt-auto" data-productID="@x.Id" asp-action="AddToCart" asp-controller="Cart" asp-route-productId="@x.Id">
+                                    Add To Cart
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</section>
+
+<datalist id="categories">
+    @foreach (var x in Model.Select(m => m.Category.Name).Distinct())
+    {
+        <option value="@x"></option>
+    }
+</datalist>
+
+<div class="w-75 m-auto container ">
+    <ul class="pagination justify-content-center">
+        <li class="page-item @(ViewBag.PageIndex == null || ViewBag.PageIndex <= 1 ? "disabled" : "")">
+            <a class="page-link" asp-action="Index" asp-route-page="1">&laquo;</a>
+        </li>
+
+        @if (ViewBag.PageIndex > 3)
+        {
+            <li class="page-item">
+                <a class="page-link" asp-action="Index" asp-route-page="1">1</a>
+            </li>
+            <li class="page-item disabled">
+                <span class="page-link">...</span>
+            </li>
+        }
+
+        @for (var i = Math.Max(1, ViewBag.PageIndex - 2); i <= Math.Min(ViewBag.PageSum, ViewBag.PageIndex + 2); i++)
+        {
+            <li class="page-item @(ViewBag.PageIndex == i ? "active" : "")">
+                <a class="page-link" asp-action="Index" asp-route-page="@i">@i</a>
+            </li>
+        }
+
+        @if (ViewBag.PageIndex < ViewBag.PageSum - 2)
+        {
+            <li class="page-item disabled">
+                <span class="page-link">...</span>
+            </li>
+            <li class="page-item">
+                <a class="page-link" asp-action="Index" asp-route-page="@ViewBag.PageSum">@ViewBag.PageSum</a>
+            </li>
+        }
+
+        <li class="page-item @(ViewBag.PageIndex == null || ViewBag.PageIndex >= ViewBag.PageSum ? "disabled" : "")">
+            <a class="page-link" asp-action="Index" asp-route-page="@ViewBag.PageSum">&raquo;</a>
+        </li>
+    </ul>
+
+</div>

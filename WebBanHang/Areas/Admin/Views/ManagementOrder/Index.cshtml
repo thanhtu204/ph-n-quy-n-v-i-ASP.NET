@@ -1,0 +1,29 @@
+﻿@model Order
+<div class="container">
+    <form action="PhoneSearch" method="post">
+        <input type="text" name="Phone" value="" />
+        <button  class="btnPhoneSearch btn btn-light border text-primary icon-hover-primary">Tìm kiếm</button>
+    </form>
+    <div>      
+        <table>
+            <tr>
+                <td>Name</td>
+            </tr>
+          
+            <tr>
+                @if (Model.CustomerName == "")
+                {
+                <th>
+                    null
+                </th>
+            }
+            else
+            {
+                <th>
+                    @Model.CustomerName
+                </th>
+            }
+            </tr>
+        </table>
+    </div>
+</div>

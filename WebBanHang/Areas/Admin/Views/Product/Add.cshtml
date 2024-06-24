@@ -1,0 +1,46 @@
+﻿@model Product
+<form asp-action="Add" method="post" enctype="multipart/form-data">
+    <h2>Add Product</h2>
+    <hr />
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group pb-2">
+                <label>Name</label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group pb-2">
+                <label>Discription</label>
+<textarea asp-for="Description" class="form-control"></textarea>
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-group pb-2">
+                <label>Price</label>
+                <input asp-for="Price" class="form-control" />
+                <span asp-validation-for="Price" class="text-danger"></span>
+            </div>
+            <div class="form-group pb-2">
+                <label>Category</label>
+
+                <select asp-for="CategoryId" asp-items="@ViewBag.CategoryList" class="form-
+control">
+
+                    <option disabled selected>==Select category===</option>
+                </select>
+                <span asp-validation-for="CategoryId" class="text-danger"></span>
+            </div>
+            <div class="form-group pb-2">
+                <label>Product Image</label>
+                <input asp-for="ImageUrl" type="file" class="form-control" />
+            </div>
+        </div>
+    </div>
+    <button type="submit" class="btn btn-primary"> Save </button>
+    <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+</form>
+
+
+@section Scripts
+{
+    <partial name="_ValidationScriptsPartial" />
+}
